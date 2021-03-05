@@ -47,11 +47,11 @@ func DockerContainer(query map[string][]string) ([]map[string]interface{}, int, 
 		    https://github.com/moby/moby/issues/42092
 			https://github.com/moby/moby/blob/master/integration-cli/docker_api_containers_test.go
 		*/
-		if _, ok := query["quiet"]; ok {
-			containerQuit = true
-		}
-		// 根据容器名查询， 开源代码没处理，需要自己实现
 		containerFilters := filters.NewArgs()
+		if _, ok := query["quiet"]; ok {
+			containerFilters.Add("status", query["quiet"][0])
+		}
+
 		if _, ok := query["container"]; ok {
 			containerFilters.Add("name", query["container"][0])
 		}
